@@ -148,7 +148,7 @@ defmodule BreakMnesiaTest do
     end)
   end
 
-  # Ok, majority seems to have fixed things, lets see what happens if we mark
+  # Ok, majority seems to have fixed some things, lets see what happens if we mark
   # specific nodes as "leaders" (master in erlang terms). The idea being, if
   # there is an inconsistency somewhere, nodes can be brought up using the
   # leaders version of the table. As long as the leaders table is correct,
@@ -221,11 +221,13 @@ defmodule BreakMnesiaTest do
     # that invariant is to redirect all writes to n1, thus creating a single
     # point of failure across the cluster, or by implementing concensus. I've
     # built concensus algorithms before. Thinking of making that work reliably
-    # with mnesia makes my head spin a bit. Someone could do it, but its non-trivial.
+    # with mnesia makes my head spin. Someone could do it, but its non-trivial.
     # Forcing a single point of failure isn't *that* bad in the big scheme of
     # things. After all, your single postgres instance is a single point of failure.
     # Keep in mind you'll need to figure out how you're going to deploy and scale
-    # your application with this single writer pattern as well.
+    # your application with this single writer pattern as well. Either way, Mnesia
+    # isn't doing anything to verify that your leader is actually correct. It
+    # assumes you're doing that.
     #
     # My larger point isn't to say that Mnesia is bad or wrong or to say that
     # solving these problems is impossible. The point is that Mnesia isn't going
